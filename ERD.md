@@ -2,21 +2,29 @@
 
 erDiagram
 
-    %% Relations
+    %%===============
+    %%== Relations ==
+    %%===============
     ORGANIZATIONS ||--o{ DEPARTMENTS : has
+    ORGANIZATIONS ||--o{ SYSTEMS: has
     USERS ||--o{ DEPARTMENTS_MEMBERSHIP : has
     DEPARTMENTS ||--o{ DEPARTMENTS_MEMBERSHIP: HAS
+    SYSTEMS }o--|| SYSTEM_TYPES: includes
 
-    %% Tables
+    %%================
+    %%==== Tables ====
+    %%================
     ORGANIZATIONS {
         UUID id PK
         string name
+        datetime created_at
     }
 
     DEPARTMENTS {
         UUID id PK
         string name
         UUID organization_id FK
+        datetime created_at
     }
 
     USERS {
@@ -36,23 +44,37 @@ erDiagram
         UUID id PK
         string name
         string description
+        datetime created_at
     }
 
     SYSTEMS {
         UUID id PK
         string name
-        UUID int_id FK
-        string status
-        UUID department_owner_id FK
-        UUID user_owner_id FK
         UUID organization_id FK
+        string status
+        UUID department_id FK
+        UUID user_owner_id FK
         string tag
         datetime created_at
         datetime updated_at
     }
 
+    %%=======================
+    %%== Ownership History ==
+    %%=======================
+    SYSTEM_CLAIMS {
+        UUID id PK
+        UUID organization_id FK
+        UUID system_id FK
+        UUID claimed_by_user_id FK
+        datetime claimed_at
+        datetime released_at
+        string notes
+    }
 
-    %% Memberships
+    %%=================
+    %%== Memberships ==
+    %%=================
     DEPARTMENTS_MEMBERSHIP {
         UUID id PK
         UUID user_id FK
