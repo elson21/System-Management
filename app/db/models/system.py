@@ -38,3 +38,7 @@ class System(Base):
                     onupdate=func.now(),
                     nullable=True
                 )
+    
+
+    def __repr__(self):
+        return f"System (id: {self.id}, name: {self.name})"
