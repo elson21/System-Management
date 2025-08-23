@@ -1,4 +1,3 @@
-.venv/*
 .env
-
-SQLAlchemy\ basics/*
+.db_data/
+SQLAlchemy\ basics/

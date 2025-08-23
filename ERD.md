@@ -32,12 +32,14 @@ erDiagram
         string first_name
         string last_name
         string email
-        bool is_active
+        string password_hash
         UUID organization_id FK
+        bool is_active
+        string avatar_url
         datetime last_login
         datetime created_at
-        datetime email_verified_at
         datetime updated_at
+        datetime email_verified_at
     }
 
     SYSTEM_TYPES {

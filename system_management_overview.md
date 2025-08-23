@@ -188,35 +188,50 @@ This document captures the core architectural choices and recommendations for bu
 ```text
 app/
   main.py
-  config.py
-  db.py
-  security/
-    auth.py
-    deps.py
-  models/
-    user.py
-    org.py
-    system.py
-  schemas/
-    user.py
-    org.py
-    system.py
-  routers/
-    auth.py
-    orgs.py
+  api/
+    routers/
+      auth.py
+      systems.py
+      claims.py
+  core/
+    config.py
+    security.py
+    dependencies.py
+  db/
+    session.py
+    models/
+      __init__.py
+      user.py
+      department.py
+      system.py
+      claim.py
+    migrations/  # alembic
+  repositories/
+    users.py
     systems.py
     claims.py
-    feed.py
-    admin.py
   services/
-    systems_service.py
-    claims_service.py
-  workers/
-    tasks.py
-  templates/
-  static/
-alembic/
+    auth.py
+    claims.py
+  schemas/
+    auth.py
+    user.py
+    system.py
+    claim.py
+  web/           # Jinja2 templates + HTMX partials + static
+    templates/
+      base.html
+      index.html
+      auth/
+        login.html
+        register.html
+      systems/
+        list.html
+        _row.html
+    static/
 tests/
+  test_claims.py
+
 ```
 
 ---

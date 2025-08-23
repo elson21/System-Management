@@ -1,15 +1,37 @@
 # System Management
 
-This is a web application that allows a single user to claim a system, such as
-a PLC or inverter, to work on without the need to announce it to the team.
+System Management is a web application that allows users to **claim a system** (e.g. a PLC, inverter, or other shared machine) while they are working on it.  
+This prevents conflicts and ensures teams always know which systems are in use.
 
-### The Problem
+---
 
-When a software engineer wants to test their code on a physical machine, they must ensure
-that no one else is using the machine. At the same time, he needs to be sure that no other person will access the machine while working on it.
-Some teams use internal channels such as Teams, emails or excel spreadsheets for this purpose, while others simply talk to each other. These way have proven to be inneficient as it is easy to lose track of who is using which machine, especially as the team or organization grows.
+## The Problem
+When a software engineer wants to test their code on a physical machine, they must ensure that no one else is using it.  
+At the same time, they need to guarantee that no one else will access the machine during their session.  
 
-### The Solution
+Currently, teams often rely on ad-hoc solutions:
+- Posting in chat channels (Teams, Slack, etc.)  
+- Sending emails  
+- Maintaining Excel sheets  
+- Or simply talking to each other  
 
-A web application with user authentication that enables users to lock a machine for a specified amount of time without the need to inform each person or a group of people.
-This way multiple departments will be aware at all times when a machine is not available and refrain from accessing it.
+These approaches are inefficient and error-prone. As teams and organizations grow, it becomes easy to lose track of **who is using which system**.
+
+---
+
+## The Solution
+System Management provides a centralized web application with:
+- **User authentication**  
+- **System claiming/locking** for a set duration  
+- **Organization- and department-level visibility**  
+
+This ensures that:
+- Everyone knows when a system is in use  
+- Users can confidently work without interruptions  
+- Departments can coordinate access efficiently  
+
+---
+
+## MVP (v0.1)
+- **User authentication**
+- **System information**
