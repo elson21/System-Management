@@ -22,7 +22,11 @@ class User(Base):
     password_hash = Column(String(255))
 
     # Relationships
-    organization_id = Column(UUID(as_uuid=True), ForeignKey("organizations.id"))
+    organization_id = Column(
+                        UUID(as_uuid=True),
+                        ForeignKey("organizations.id"),
+                        nullable=False
+                    )
 
     # Status and optional fields
     is_active = Column(Boolean, default=True)

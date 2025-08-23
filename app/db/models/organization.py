@@ -9,7 +9,10 @@ from ..session import Base
 class Organization(Base):
     __tablename__ = "organizations"
 
+    # Primary key
     id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
+
+    # Basic info
     name = Column(String(200), unique=True, nullable=False, index=True)
     created_at = Column(
                 DateTime(timezone=True),

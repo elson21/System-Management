@@ -1,4 +1,7 @@
-.venv
+.venv/
+.env/
 .env
 .db_data/
+.Python
+__pycache__/
 SQLAlchemy\ basics/
