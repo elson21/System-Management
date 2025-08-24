@@ -23,7 +23,7 @@ class DepartmentMembership(Base):
                 ForeignKey("departments.id"),
                 nullable=False
             )
-    organization = Column(
+    organization_id = Column(
                 UUID(as_uuid=True),
                 ForeignKey("organizations.id"),
                 nullable=False

@@ -1,4 +1,4 @@
-# app/db/model/department.py
+# app/db/models/department.py
 
 from sqlalchemy import Column, String, DateTime, ForeignKey, func
 from sqlalchemy.dialects.postgresql import UUID
@@ -13,10 +13,14 @@ class Department(Base):
     id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
 
     # Basic info
-    name = Column(String, unique=True, nullable=False, index=True)
+    name = Column(String(50), unique=True, nullable=False, index=True)
 
     # Relationships
-    organization_id = Column(UUID(as_uuid=True), ForeignKey("organizations.id"))
+    organization_id = Column(
+                        UUID(as_uuid=True),
+                        ForeignKey("organizations.id"),
+                        nullable=False
+                    )
 
     # Timestamps
     created_at = Column(

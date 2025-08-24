@@ -53,9 +53,9 @@ erDiagram
         UUID id PK
         string name
         UUID organization_id FK
-        string status
         UUID department_id FK
         UUID user_owner_id FK
+        string status
         string tag
         datetime created_at
         datetime updated_at
