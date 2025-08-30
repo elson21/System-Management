@@ -1,19 +1,20 @@
 services:
-  postgres:
+  db:
     image: postgres:16
-    container_name: system_management_postgres
-    restart: unless-stopped
     env_file: .env
     ports:
       - "${POSTGRES_PORT}:5432"
     volumes:
-      # Persistent db files
       - db_data:/var/lib/postgresql/data
-    healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U $$POSTGRES_USER -d $$POSTGRES_DB"]
-      interval: 5s
-      timeout: 5s
-      retries: 10
+    
+  app:
+    build: .
+    container_name: system_management_app
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db
+    env_file: .env
 
 volumes:
   db_data:

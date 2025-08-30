@@ -6,8 +6,7 @@ This document captures the core architectural choices and recommendations for bu
 
 ## 1. App Style
 - **Framework:** FastAPI (async-first, strongly typed)
-- **ORM:** SQLAlchemy 2.0 (async engine) + Alembic migrations  
-  - Alternative: Tortoise/Ormar (simpler, fewer features)
+- **ORM:** SQLAlchemy 2.0 (async engine) 
 - **Validation/DTOs:** Pydantic v2
 - **Database:** PostgreSQL
 - **Caching / async jobs:** Redis + Celery (or Dramatiq)  
