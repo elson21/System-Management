@@ -11,7 +11,7 @@ Implements functions to:
     - EXECUTE STATEMENT
 """
 
-from .models import (
+from .db_models import (
     DepartmentMembership,
     Department,
     Organization,

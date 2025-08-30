@@ -1,35 +1,85 @@
-from enum import Enum
-from fastapi import FastAPI, HTTPException
+from fastapi import Depends, FastAPI,Form, HTTPException
+from fastapi.requests import Request
+from fastapi.responses import HTMLResponse
 from fastapi.security import OAuth2
+from fastapi.staticfiles import StaticFiles
+from fastapi.templating import Jinja2Templates
+from sqlalchemy.orm import Session
 
-class ModelName(str, Enum):
-    alexnet = "alexnet"
-    resnet = "resnet"
-    lenet = "lenet"
+from app.db.session import SessionLocal
+from app.db.db_models import(
+                        User,
+                        Organization,
+                        SystemClaim,
+                        System
+                    )
 
 app = FastAPI()
+templates = Jinja2Templates(directory="app/templates")
+app.mount("/static", StaticFiles(directory="app/static"), name="static")
 
-# def decrypt_access_token(access_token: str):
-#     try:
-#         if not access_token:
-#             raise HTTPException(status_code=401, detail="Missing token")
+def db_connect():
+    with SessionLocal() as db:
+        yield db
+
         
-
-
 @app.get("/")
-def index():
-    return {"message": "Hello!"}
-
-@app.get("/items/{item_id}")
-def read_item(item_id: str) -> dict:
-    return {"item_id": item_id}
-
-@app.get("/models/{model_name}")
-async def get_model(model_name: ModelName):
-    if model_name is ModelName.alexnet:
-        return {"model name": model_name, "message": "Deep Learning FTW!"}
+def main_page(request: Request) -> HTMLResponse:
+    return templates.TemplateResponse("index.html", {"request": request})
     
-    if model_name is ModelName.resnet:
-        return {"model name": model_name, "message": "LeCNN all the images!"}
-    
-    return {"model name": model_name, "message": "Have some residuals."}
+
+
+@app.get("/api/activity")
+def get_post(request: Request, db: Session=Depends(db_connect)) -> HTMLResponse:
+
+    # see last 10 posts
+    claims = db.query(SystemClaim)\
+                    .join(User)\
+                    .join(System)\
+                    .order_by(SystemClaim.claimed_at.desc())\
+                    .limit(10)\
+                    .all()
+
+    return templates.TemplateResponse("activity.html", {"request": request, "claims": claims})
+
+
+@app.get("/api/dashboard")
+def get_dashboard(request: Request, db: Session=Depends(db_connect)) -> HTMLResponse:
+
+    return templates.TemplateResponse("dashboard.html", {"request": request})
+
+
+@app.get("/api/systems")
+def get_systems(request: Request, db: Session=Depends(db_connect)) -> HTMLResponse:
+    systems = db.query(System).all()
+
+    return templates.TemplateResponse("systems.html", {"request": request, "systems": systems})
+
+
+@app.post("/create-user")
+def create_user(
+                first_name: str=Form(),
+                last_name: str=Form(),
+                email: str=Form()
+            ) -> HTMLResponse:
+    db = SessionLocal()
+
+    organization = db.query(Organization).first()
+    if not organization:
+        organization = Organization(name="Test organization")
+        db.add(organization)
+        db.commit()
+        db.refresh(organization)
+
+    user = User(
+        first_name = first_name,
+        last_name = last_name,
+        email = email,
+        organization_id = organization.id
+    )
+
+    db.add(user)
+    db.commit()
+    db.refresh(user)
+
+    return {"message": "User created!"}

@@ -1,10 +1,25 @@
 # app/db/models/system.py
 
-from sqlalchemy import Column, String, DateTime, ForeignKey, Text, func
+import enum
+from sqlalchemy import(
+                    Column, String, DateTime, ForeignKey, Text,
+                    func,
+                    Enum
+                )
 from sqlalchemy.dialects.postgresql import UUID
 import uuid
 
 from ..session import Base
+
+
+class SystemStatus(enum.Enum):
+    CHARGING = "charging"
+    CLAIMED = "claimed"
+    FREE = "free"
+    ISLANDING = "islanding"
+    MAINTENANCE = "maintenance"
+    OFFLINE = "offline"
+    PEAKSHAVING = "peakshaving"
 
 class System(Base):
     __tablename__ = "systems"
@@ -14,6 +29,7 @@ class System(Base):
 
     # Basic ingo
     name = Column(String(50), unique=True, nullable=False, index=True)
+    status = Column(Enum(SystemStatus), default=SystemStatus.FREE)
     
     # Relationships
     organization_id = Column(
@@ -24,7 +40,7 @@ class System(Base):
     department_id = Column(UUID(as_uuid=True), ForeignKey("departments.id"))
     
     # Notes
-    notes = Column(Text(1000))
+    notes = Column(Text)
 
     # Timestamps
     created_at = Column(

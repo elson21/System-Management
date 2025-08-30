@@ -8,17 +8,6 @@ It provides:
     - Database engine
     - Session factory for creating database sessions
     - Base class for all ORM models
-
-Usage:
-    from app.db.session import SessionLocal, Base, engine
-
-    # Create a database session
-    db = SessionLocal()
-    try:
-        # db operations
-        pass
-    finally:
-        db.close()
 """
 
 import os

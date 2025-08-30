@@ -2,6 +2,7 @@
 
 from sqlalchemy import Column, DateTime, ForeignKey, String, Text, func
 from sqlalchemy.dialects.postgresql import UUID
+from sqlalchemy.orm import relationship
 import uuid
 
 from ..session import Base
@@ -13,7 +14,7 @@ class SystemClaim(Base):
     id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
 
     # Notes
-    notes = Column(Text(1000))
+    notes = Column(Text)
 
     # Relationships
     organization_id = Column(
@@ -31,6 +32,9 @@ class SystemClaim(Base):
                             ForeignKey("users.id"),
                             nullable=False
                         )
+    
+    user = relationship("User")
+    system = relationship("System")
     
     # Timestamps
     claimed_at = Column(
