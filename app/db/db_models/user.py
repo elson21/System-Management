@@ -18,7 +18,7 @@ class User(Base):
     last_name = Column(String(50), nullable=False)
     email = Column(String(100),unique=True, nullable=False, index=True)
 
-    # Password has
+    # Password hash
     password_hash = Column(String(255))
 
     # Relationships
@@ -30,6 +30,7 @@ class User(Base):
 
     # Status and optional fields
     is_active = Column(Boolean, default=True)
+    is_admin = Column(Boolean, default=False)  # Admin privileges
     avatar_url = Column(String(500), nullable=True)
     
     # Timestamps
