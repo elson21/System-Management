@@ -1,0 +1,40 @@
+<div class="container">
+    <h1 class="title">Activity Feed</h1>
+    <p class="subtitle">Recent system activity and claims</p>
+    
+    <div class="content">
+        {% if claims %}
+            {% for claim in claims %}
+            <div class="card mb-3">
+                <div class="card-content">
+                    <div class="media">
+                        <div class="media-content">
+                            <p class="title is-4">{{ claim.user.first_name }} {{ claim.user.last_name }}</p>
+                            <p class="subtitle is-6">{{ claim.user.email }}</p>
+                        </div>
+                    </div>
+                    <div class="content">
+                        <p><strong>System:</strong> {{ claim.system.name }}</p>
+                        <p><strong>Claimed at:</strong> {{ claim.claimed_at.strftime('%Y-%m-%d %H:%M:%S') if claim.claimed_at else 'N/A' }}</p>
+                        {% if claim.notes %}
+                        <p><strong>Notes:</strong> {{ claim.notes }}</p>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        {% else %}
+            <div class="notification is-info">
+                <p>No recent activity found.</p>
+            </div>
+        {% endif %}
+    </div>
+    
+    <div class="mt-4">
+        <button class="button is-primary" 
+                hx-get="/" 
+                hx-target="#main-content">
+            ← Back to Home
+        </button>
+    </div>
+</div>

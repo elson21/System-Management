@@ -1,0 +1,94 @@
+<div class="container">
+    <h1 class="title">Create New User</h1>
+    <p class="subtitle">Add a new user to the system</p>
+    
+    <div class="columns">
+        <div class="column is-8">
+            <form action="/api/admin/create-user" method="POST">
+                <div class="field">
+                    <label class="label">First Name</label>
+                    <div class="control">
+                        <input class="input" type="text" name="first_name" required>
+                    </div>
+                </div>
+                
+                <div class="field">
+                    <label class="label">Last Name</label>
+                    <div class="control">
+                        <input class="input" type="text" name="last_name" required>
+                    </div>
+                </div>
+                
+                <div class="field">
+                    <label class="label">Email</label>
+                    <div class="control">
+                        <input class="input" type="email" name="email" required>
+                    </div>
+                </div>
+                
+                <div class="field">
+                    <label class="label">Password</label>
+                    <div class="control">
+                        <input class="input" type="password" name="password" required>
+                    </div>
+                </div>
+                
+                <div class="field">
+                    <div class="control">
+                        <label class="checkbox">
+                            <input type="checkbox" name="is_admin" value="true">
+                            Admin privileges
+                        </label>
+                    </div>
+                </div>
+                
+                <div class="field">
+                    <div class="control">
+                        <label class="checkbox">
+                            <input type="checkbox" name="is_active" value="true" checked>
+                            Active user
+                        </label>
+                    </div>
+                </div>
+                
+                <div class="field is-grouped">
+                    <div class="control">
+                        <button class="button is-primary" type="submit">Create User</button>
+                    </div>
+                    <div class="control">
+                        <button class="button is-light" 
+                                type="button"
+                                hx-get="/" 
+                                hx-target="#main-content">
+                            Cancel
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+        
+        <div class="column is-4">
+            <div class="card">
+                <div class="card-content">
+                    <p class="title">Instructions</p>
+                    <div class="content">
+                        <ul>
+                            <li>Fill in all required fields</li>
+                            <li>Email must be unique</li>
+                            <li>Admin users can create other users</li>
+                            <li>Active users can log in immediately</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="mt-4">
+        <button class="button is-primary" 
+                hx-get="/" 
+                hx-target="#main-content">
+            ← Back to Home
+        </button>
+    </div>
+</div>

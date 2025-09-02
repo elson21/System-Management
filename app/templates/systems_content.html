@@ -1,0 +1,42 @@
+<div class="container">
+    <h1 class="title">Systems</h1>
+    <p class="subtitle">Manage your system inventory</p>
+    
+    <div class="table-container">
+        <table class="table is-fullwidth is-striped">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Type</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for system in systems %}
+                <tr>
+                    <td>{{ system.id }}</td>
+                    <td>{{ system.name }}</td>
+                    <td>{{ system.system_type.name if system.system_type else 'N/A' }}</td>
+                    <td>
+                        <span class="tag is-success">Active</span>
+                    </td>
+                    <td>
+                        <button class="button is-small is-info">View</button>
+                        <button class="button is-small is-warning">Edit</button>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    
+    <div class="mt-4">
+        <button class="button is-primary" 
+                hx-get="/" 
+                hx-target="#main-content">
+            ← Back to Home
+        </button>
+    </div>
+</div>

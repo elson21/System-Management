@@ -1,0 +1,53 @@
+<div class="container">
+    <h1 class="title">Dashboard</h1>
+    <p class="subtitle">Welcome to your system dashboard, {{ user.first_name }}!</p>
+    
+    <div class="columns">
+        <div class="column">
+            <div class="card">
+                <div class="card-content">
+                    <p class="title">Quick Actions</p>
+                    <div class="buttons">
+                        <button class="button is-info" 
+                                hx-get="/api/systems" 
+                                hx-target="#main-content">
+                            View Systems
+                        </button>
+                        <button class="button is-success" 
+                                hx-get="/api/activity" 
+                                hx-target="#main-content">
+                            View Activity
+                        </button>
+                        {% if user.is_admin %}
+                        <button class="button is-warning" 
+                                hx-get="/admin/create-user" 
+                                hx-target="#main-content">
+                            Create User
+                        </button>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="column">
+            <div class="card">
+                <div class="card-content">
+                    <p class="title">User Info</p>
+                    <p><strong>Name:</strong> {{ user.first_name }} {{ user.last_name }}</p>
+                    <p><strong>Email:</strong> {{ user.email }}</p>
+                    <p><strong>Role:</strong> {% if user.is_admin %}Administrator{% else %}User{% endif %}</p>
+                    <p><strong>Last Login:</strong> {{ user.last_login.strftime('%Y-%m-%d %H:%M:%S') if user.last_login else 'Never' }}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="mt-4">
+        <button class="button is-primary" 
+                hx-get="/" 
+                hx-target="#main-content">
+            ← Back to Home
+        </button>
+    </div>
+</div>

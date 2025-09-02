@@ -5,7 +5,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>System Management</title>
+    <!-- Bulma -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@1.0.4/css/bulma.min.css">
+    <!-- HTMX -->
     <script src="https://unpkg.com/htmx.org@1.9.10"></script>
 </head>
 <body>
@@ -19,11 +21,79 @@
 
         <!-- Main content area -->
         <div class="column is-10">
-            <div id="main-content"
-                hx-get="/api/systems"
-                hx-trigger="load"
-                >
-                <!-- content -->
+            <div id="main-content">
+                {% if is_authenticated %}
+                    <!-- Show dashboard content for authenticated users -->
+                    <div class="container">
+                        <h1 class="title">Welcome, {{ user.first_name }}!</h1>
+                        <p class="subtitle">You are logged in as {{ user.email }}</p>
+                        
+                        <div class="columns">
+                            <div class="column">
+                                <div class="card">
+                                    <div class="card-content">
+                                        <p class="title">Dashboard</p>
+                                        <p class="subtitle">View your system overview</p>
+                                        <button class="button is-primary" 
+                                                hx-get="/api/dashboard" 
+                                                hx-target="#main-content">
+                                            Go to Dashboard
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="column">
+                                <div class="card">
+                                    <div class="card-content">
+                                        <p class="title">Systems</p>
+                                        <p class="subtitle">Manage your systems</p>
+                                        <button class="button is-info" 
+                                                hx-get="/api/systems" 
+                                                hx-target="#main-content">
+                                            View Systems
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="column">
+                                <div class="card">
+                                    <div class="card-content">
+                                        <p class="title">Activity</p>
+                                        <p class="subtitle">Recent system activity</p>
+                                        <button class="button is-success" 
+                                                hx-get="/api/activity" 
+                                                hx-target="#main-content">
+                                            View Activity
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        {% if user.is_admin %}
+                        <div class="mt-4">
+                            <div class="card">
+                                <div class="card-content">
+                                    <p class="title">Admin Panel</p>
+                                    <p class="subtitle">Administrative functions</p>
+                                    <button class="button is-warning" 
+                                            hx-get="/admin/create-user" 
+                                            hx-target="#main-content">
+                                        Create User
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        {% endif %}
+                    </div>
+                {% else %}
+                    <!-- Show welcome content for unauthenticated users -->
+                    <div class="container has-text-centered">
+                        <h1 class="title">Welcome to System Management</h1>
+                        <p class="subtitle">Please sign in to access your systems</p>
+                        <a href="/login" class="button is-primary is-large">Sign In</a>
+                    </div>
+                {% endif %}
             </div>
         </div>
     </div>
