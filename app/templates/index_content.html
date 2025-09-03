@@ -31,19 +31,6 @@
                     </div>
                 </div>
             </div>
-            <div class="column">
-                <div class="card">
-                    <div class="card-content">
-                        <p class="title">Activity</p>
-                        <p class="subtitle">Recent system activity</p>
-                        <button class="button is-success" 
-                                hx-get="/api/activity" 
-                                hx-target="#main-content">
-                            View Activity
-                        </button>
-                    </div>
-                </div>
-            </div>
         </div>
         
         {% if user.is_admin %}

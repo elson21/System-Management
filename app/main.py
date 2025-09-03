@@ -117,22 +117,11 @@ def admin_create_user_page(
             status_code=status.HTTP_403_FORBIDDEN,
             detail="Access denied. Admin privileges required."
         )
-    
-    # Check if this is an HTMX request
-    is_htmx = request.headers.get("HX-Request") == "true"
-    
-    if is_htmx:
-        # Return only the admin create user content for HTMX requests
-        return templates.TemplateResponse("admin_create_user_content.html", {
-            "request": request, 
-            "user": current_user
-        })
-    else:
-        # Return full page for regular requests
-        return templates.TemplateResponse("admin_create_user.html", {
-            "request": request, 
-            "user": current_user
-        })
+
+    return templates.TemplateResponse("admin_create_user.html", {
+        "request": request, 
+        "user": current_user
+    })
     
 
 @app.post("/api/admin/create-user")
@@ -202,23 +191,11 @@ def get_post(
                     .limit(10)\
                     .all()
 
-    # Check if this is an HTMX request
-    is_htmx = request.headers.get("HX-Request") == "true"
-    
-    if is_htmx:
-        # Return only the activity content for HTMX requests
-        return templates.TemplateResponse("activity_content.html", {
-            "request": request, 
-            "claims": claims, 
-            "user": current_user
-        })
-    else:
-        # Return full page for regular requests
-        return templates.TemplateResponse("activity.html", {
-            "request": request, 
-            "claims": claims, 
-            "user": current_user
-        })
+    return templates.TemplateResponse("activity.html", {
+        "request": request, 
+        "claims": claims, 
+        "user": current_user
+    })
 
 @app.get("/api/dashboard")
 def get_dashboard(
@@ -226,7 +203,7 @@ def get_dashboard(
     db: Session = Depends(db_connect),
     current_user: User = Depends(get_current_active_user)
 ) -> HTMLResponse:
-    return templates.TemplateResponse("index_content.html", {
+    return templates.TemplateResponse("dashboard.html", {
             "request": request, 
             "user": current_user
         })
@@ -240,23 +217,11 @@ def get_systems(
 ) -> HTMLResponse:
     systems = db.query(System).all()
     
-    # Check if this is an HTMX request
-    is_htmx = request.headers.get("HX-Request") == "true"
-    
-    if is_htmx:
-        # Return only the systems content for HTMX requests
-        return templates.TemplateResponse("systems_content.html", {
-            "request": request, 
-            "systems": systems, 
-            "user": current_user
-        })
-    else:
-        # Return full page for regular requests
-        return templates.TemplateResponse("systems.html", {
-            "request": request, 
-            "systems": systems, 
-            "user": current_user
-        })
+    return templates.TemplateResponse("systems_content.html", {
+        "request": request, 
+        "systems": systems, 
+        "user": current_user
+    })
 
 @app.post("/create-user")
 def create_user(
