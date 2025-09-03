@@ -20,7 +20,7 @@
                 <div class="column is-4">
                     <h3 class="title has-text-centered" style="color: #C026D3">Login</h3>
                     <hr class="login-hr">
-                    <p class="subtitle has-text-warning">Beware, there is no turning back after this point!</p>
+                    <p class="subtitle has-text-black is-invisible">GO AWAY!</p>
                     <form action="/api/login" method="POST">
                         <!-- Email -->
                         <div class="field">
@@ -52,7 +52,23 @@
                             Login
                         </button>
                     </form>
+
+                    <!-- Error Message -->
+                    {% if error %}
+                    <div class="has-text-warning">
+                        {{ error }}
+                    </div>
+                    {% endif %}
+
+                    <div class="mt-6 text-center">
+                        <p class="text-gray-200 text-sm">
+                            Need an account? Then you're in the wrong place!
+                        </p>
+                    </div>
                 </div>
+
+                <hr>
+                
             </div>
         </div>
     </section>
