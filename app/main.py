@@ -26,6 +26,9 @@ app = FastAPI()
 templates = Jinja2Templates(directory="app/templates")
 app.mount("/static", StaticFiles(directory="app/static"), name="static")
 
+# Add this to make static files available in templates
+templates.env.globals["static"] = lambda path: f"/static/{path}"
+
 def db_connect():
     with SessionLocal() as db:
         yield db
@@ -38,24 +41,7 @@ def main_page(request: Request, db: Session = Depends(db_connect)) -> HTMLRespon
         current_user = get_current_user_from_cookie(request, db)
     except HTTPException:
         pass  # User not authenticated
-    
-    # Check if this is an HTMX request
-    # is_htmx = request.headers.get("HX-Request") == "true"
-    
-    # if is_htmx:
-    #     # Return only the main content for HTMX requests
-    #     return templates.TemplateResponse("index_content.html", {
-    #         "request": request, 
-    #         "user": current_user,
-    #         "is_authenticated": current_user is not None
-    #     })
-    # else:
-    #     # Return full page for regular requests
-    #     return templates.TemplateResponse("index.html", {
-    #         "request": request, 
-    #         "user": current_user,
-    #         "is_authenticated": current_user is not None
-    #     })
+
     return templates.TemplateResponse("index.html", {
         "request": request, 
         "user": current_user,
@@ -65,7 +51,7 @@ def main_page(request: Request, db: Session = Depends(db_connect)) -> HTMLRespon
 
 @app.get("/login")
 def login_page(request: Request) -> HTMLResponse:
-    return templates.TemplateResponse("login_.html", {"request": request})
+    return templates.TemplateResponse("login.html", {"request": request})
 
 
 @app.post("/api/login")
@@ -81,7 +67,7 @@ async def login(
     if not user:
         print(f"Authentication failed for user: {username}")
         # Return login page with error message
-        return templates.TemplateResponse("login_.html", {
+        return templates.TemplateResponse("login.html", {
             "request": request,
             "error": "Incorrect email or password"
         })
@@ -100,7 +86,7 @@ async def login(
     print(f"Generated token for user {username}: {access_token[:20]}...")
     
     # Create response with token in cookie and redirect to dashboard
-    response = RedirectResponse(url="index_content.html", status_code=302)
+    response = RedirectResponse(url="/", status_code=302)
     response.set_cookie(
         key="access_token",
         value=access_token,

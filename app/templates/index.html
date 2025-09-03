@@ -9,21 +9,25 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@1.0.4/css/bulma.min.css">
     <!-- HTMX -->
     <script src="https://unpkg.com/htmx.org@1.9.10"></script>
+    <!-- Custom Styles -->
+    <link rel="stylesheet" href="{{ static('css/styles.css') }}">
 </head>
 <body>
+    
+    {% if is_authenticated %}
     <!-- Navbar -->
     {% include "navbar.html" %}
-
     <!-- Main layout -->
     <div class="columns">
-        <!-- Activity feed -->
-        {% include "activity.html" %}
-
+        
         <!-- Main content area -->
         <div class="column is-10">
             <div id="main-content">
-                {% if is_authenticated %}
-                    <!-- Show dashboard content for authenticated users -->
+                
+                <!-- Activity feed -->
+                {% include "activity.html" %}
+
+                <!-- Show dashboard content for authenticated users -->
                     <div class="container">
                         <h1 class="title">Welcome, {{ user.first_name }}!</h1>
                         <p class="subtitle">You are logged in as {{ user.email }}</p>
@@ -88,14 +92,10 @@
                     </div>
                 {% else %}
                     <!-- Show welcome content for unauthenticated users -->
-                    <div class="container has-text-centered">
-                        <h1 class="title">Welcome to System Management</h1>
-                        <p class="subtitle">Please sign in to access your systems</p>
-                        <a href="/login" class="button is-primary is-large">Sign In</a>
-                    </div>
-                {% endif %}
+                    {% include "login.html" %}
+                </div>
             </div>
         </div>
-    </div>
+    {% endif %}
 </body>
 </html>
