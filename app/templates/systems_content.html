@@ -1,12 +1,10 @@
 <div class="container">
-    <h1 class="title">Systems</h1>
-    <p class="subtitle">Manage your system inventory</p>
+    <h1 class="title has-text-centered">Systems</h1>
     
     <div class="table-container">
         <table class="table is-fullwidth is-striped">
             <thead>
                 <tr>
-                    <th>ID</th>
                     <th>Name</th>
                     <th>Type</th>
                     <th>Status</th>
@@ -16,7 +14,6 @@
             <tbody>
                 {% for system in systems %}
                 <tr>
-                    <td>{{ system.id }}</td>
                     <td>{{ system.name }}</td>
                     <td>{{ system.system_type.name if system.system_type else 'N/A' }}</td>
                     <td>

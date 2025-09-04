@@ -33,10 +33,19 @@ def db_connect():
     with SessionLocal() as db:
         yield db
 
+
+@app.middleware("http")
+async def log_requests(request: Request, call_next) -> HTMLResponse:
+    print(f"Route: {request.url.path} | Method: {request.method}")
+    response = await call_next(request)
+
+    return response
+
+
 @app.get("/")
 def main_page(request: Request, db: Session = Depends(db_connect)) -> HTMLResponse:
-    # Check if user is authenticated via cookie
     current_user = None
+    # Check if user is authenticated via cookie
     try:
         current_user = get_current_user_from_cookie(request, db)
     except HTTPException:
@@ -59,6 +68,7 @@ async def login(
     request: Request,
     username: str = Form(),
     password: str = Form(),
+    remember_me: str = Form(None),
     db: Session = Depends(db_connect)
 ):
     print(f"Login attempt for user: {username}")
@@ -78,7 +88,13 @@ async def login(
     user.last_login = datetime.now()
     db.commit()
     
-    access_token_expires = timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)
+    # Remember me for 30 days
+    if remember_me:
+        expires_in_minutes = 30 * 24 * 60
+    else:
+        expires_in_minutes = ACCESS_TOKEN_EXPIRE_MINUTES
+
+    access_token_expires = timedelta(minutes=expires_in_minutes)
     access_token = create_access_token(
         data={"sub": user.email}, expires_delta=access_token_expires
     )
@@ -90,7 +106,7 @@ async def login(
     response.set_cookie(
         key="access_token",
         value=access_token,
-        max_age=ACCESS_TOKEN_EXPIRE_MINUTES * 60,
+        max_age=expires_in_minutes * 60, # in seconds
         httponly=True,
         secure=False  # Set to True in production with HTTPS
     )
