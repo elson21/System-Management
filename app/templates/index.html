@@ -25,14 +25,17 @@
 
         <!-- Main content area -->
         <div class="column is-9">
-            <div id="main-content">
+            <div id="main-content"
+                hx-get="/api/systems"
+                hx-trigger="load"
+            >
 
-                {% else %}
-                    <!-- Show welcome content for unauthenticated users -->
-                    {% include "login.html" %}
-                </div>
-            </div>
         </div>
+    </div>
+</div>
+    {% else %}
+        <!-- Show welcome content for unauthenticated users -->
+        {% include "login.html" %}
     {% endif %}
 </body>
 </html>

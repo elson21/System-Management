@@ -17,31 +17,11 @@
             <a class="navbar-item" hx-get="/api/systems" hx-target="#main-content">
               View Systems
             </a>
+            {% if user.is_admin %}
             <a class="navbar-item" hx-get="/add-systems" hx-target="#main-content">
               Add Systems
             </a>
-          </div>
-        </div>
-
-        <div class="navbar-item has-dropdown is-hoverable">
-          <a class="navbar-link">
-            Users
-          </a>
-          <div class="navbar-dropdown">
-            <a class="navbar-item" hx-get="/add-users" hx-target="#main-content">
-              Add Users
-            </a>
-          </div>
-        </div>
-
-        <div class="navbar-item has-dropdown is-hoverable">
-          <a class="navbar-link">
-            Activity
-          </a>
-          <div class="navbar-dropdown">
-            <a class="navbar-item" hx-get="/api/activity" hx-target="#main-content">
-              View Activity
-            </a>
+            {% endif %}
           </div>
         </div>
 

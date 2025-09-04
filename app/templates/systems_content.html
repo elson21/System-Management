@@ -1,5 +1,12 @@
 <div class="container">
     <h1 class="title has-text-centered">Systems</h1>
+    {% if user.is_admin %}
+    <button class="button is-small is-info"
+            hx-get="/add-systems"
+            hx-target="@main-content">
+            Add System
+    </button>
+    {% endif %}
     
     <div class="table-container">
         <table class="table is-fullwidth is-striped">
